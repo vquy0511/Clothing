@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/user/layout/layout::areas(~{::title},~{::main})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoes - Register </title>
+</head>
+
+<body>
+    <main class="app_container-mt register mb-5">
+        <div class="row text-center mb-5">
+            <h2>ĐĂNG KÝ</h2>
+        </div>
+        <form class="register-form" action="/security/register" method="post" th:object="${user}">
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3">
+                        <input  style="width: 100%;" th:field="*{username}" placeholder="Username?"> <br> <i style="color:red;" th:errors="*{username}"></i> <br>
+                        <span style="color:red;">[[${message}]]</span>
+
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="mb-3">
+                        <input  style="width: 100%;" th:field="*{password}" type="password" placeholder="Password?"> <br> <i style="color:red;" th:errors="*{password}"></i> <br>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3">
+                        <input  style="width: 100%;" th:field="*{fullname}" placeholder="Full name?"> <br> <i style="color:red;" th:errors="*{fullname}"></i> <br>
+
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="mb-3">
+                        <input  style="width: 100%;" th:field="*{mobile}" placeholder="Phone number?"> <br> <i style="color:red;" th:errors="*{mobile}"></i> <br>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col" >
+                    <div class="mb-3">
+                        <input style="width: 100%;" th:field="*{email}" placeholder="Email Address?"> <br> <i style="color:red;" th:errors="*{email}"></i> <br>
+                    </div>
+                </div>
+            </div>
+            <button  class="btn btn-primary mt-4">Đăng ký</button>
+        </form>
+    </main>
+</body>
+
+</html>

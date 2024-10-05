@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/admin/layout/index::areas(~{::title},~{::main})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Authority</title>
+</head>
+
+<body>
+    <main style="margin:50px;">
+        <div style="max-height: 350px;width: 850px; overflow-y: scroll;">
+            <div class="card ">
+                <table class="table table-border">
+                    <thead   style="font-variant: small-caps; background-color: #3f0097; color:#fff">
+                        <tr>
+                            <th>Username</th>
+                            <th>Name</th>
+                            <th ng-repeat="role in roles" class="text-center">{{role.name}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="acc in admins">
+                            <td>{{acc.username}}</td>
+                            <td>{{acc.fullname}}</td>
+                            <td ng-repeat="role in roles" class="text-center">
+                                <input type="checkbox" ng-checked="authority_of(acc, role)"
+                                    ng-click="authority_changed(acc, role)">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+
+</html>

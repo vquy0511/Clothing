@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" th:replace="~{/user/layout/layout::areas(~{::title},~{::main})}">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shoes - Login </title>
+</head>
+
+<body>
+  <main class="app_container-mt register_header">
+    <div class="row text-center" style="justify-content: center;">
+      <h2>TÀI KHOẢN</h2>
+    </div>
+    <div class="register_form">
+      <form th:action="@{/security/login}" method="post">
+        <div class="form-group mb-3">
+          <input name="username" type="text" class="form-control" placeholder="Username?">
+        </div>
+        <div class="form-group ">
+          <input name="password" type="password" class="form-control" placeholder="Password?">
+        </div>
+
+        <!-- 2 column grid layout for inline styling -->
+        <div class="row mb-4 mt-4">
+          <div class="col d-flex justify-content-center">
+            <!-- Checkbox -->
+            <div class="form-check">
+              <input name="remember-me" class="form-check-input" type="checkbox" value="true" id="form2Example31" />
+              <label class="form-check-label" for="form2Example31"> Nhớ mật khẩu </label>
+            </div>
+          </div>
+
+          <div class="col">
+            <!-- Simple link -->
+            <a href="#">Quên mật khẩu?</a>
+          </div>
+        </div>
+
+        <!-- Submit button -->
+        <button  type="submit" class="btn btn-dark btn-block mb-4 text-center"
+          style="width: 100%;">Đăng nhập</button>
+        <p width="100%" style="color: red; text-align: center;">[[${message}]]</p>
+        <!-- Register buttons -->
+      </form>
+        <div class="text-center">
+          <p>Bạn chưa có tài khoản? <a href="/user/register">Đăng ký tại đây</a></p>
+        </div>
+    </div>
+  </main>
+</body>
+
+</html>

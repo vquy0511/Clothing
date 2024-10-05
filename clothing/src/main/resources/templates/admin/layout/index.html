@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="areas(title,body)">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-resource.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/adminResponsive.css}">
+    <link rel="stylesheet" th:href="@{/css/adminStyle.css}">
+    <!-- Style -->
+    <title th:replace="${title}"></title>
+</head>
+
+<body ng-app="dashboard-app" ng-controller="dashboard-ctrl">
+
+    <!-- for header part -->
+    <header>
+
+        <div class="logosec">
+            <i class="fa fa-bars icn menuicn" id="menuicn" aria-hidden="true"></i>
+            <div class="logo">ADMIN</div>
+        </div>
+
+        <div class="searchbar">
+            <input type="text" placeholder="Search">
+            <div class="searchbtn">
+                <i class="fa fa-search" style="color: #fff;" aria-hidden="true"></i>
+            </div>
+        </div>
+
+        <div class="message">
+            <div class="circle"></div>
+            <i class="fa fa-bell" style="font-size: 28px;" aria-hidden="true"></i>
+            <div class="dp">
+                <img th:src="@{|/avatar/${user.photo}|}" class="dpicn"  style="height: 100%;
+                    width: 100%;
+                    background-color: #626262;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: hidden;">
+            </div>
+        </div>
+
+    </header>
+
+    <div class="main-container">
+        <div class="navcontainer">
+            <nav class="nav">
+                <div class="nav-upper-options">
+                    <hr style="width: 100%;margin: 0;">
+                    <H6 style="margin: 0;">DANH MỤC QUẢN LÝ</H6>
+                    <hr style="width: 100%;margin: 0;">
+                    <details style="max-width:80%">
+                        <summary style="font-size: 16px;"> Quản lý sản phẩm</summary>
+                        <ul>
+                            <li><a href="/admin/product/list">Danh sách sản phẩm</a></li>
+                            <li style="margin-top:10px;"><a href="/admin/product/create">Thêm sản phẩm</a></li>
+                        </ul>
+
+                    </details>
+
+                    <details style="max-width:80%">
+                        <summary style="font-size: 16px;"> Quản lý đơn hàng</summary>
+                        <ul>
+                            <li><a href="/admin/order/list">Danh sách Đơn hàng</a></li>
+                        </ul>
+
+                    </details>
+
+                    <details style="max-width:80%">
+                        <summary style="font-size: 16px;"> Quản lý loại sản phẩm</summary>
+                        <ul>
+                            <li><a href="/admin/categories/list">Danh sách loại</a></li>
+                        </ul>
+
+                    </details>
+                    
+                    <details style="max-width:80%" sec:authorize="hasRole('DIRE')">              
+                        <summary style="font-size: 16px;"> Quản lý account</summary>
+                        <ul>
+                            <li><a href="/admin/authority/list">Phân Quyền account</a></li>
+        
+                        </ul>
+
+                    </details>
+                    <details style="max-width:80%" sec:authorize="hasRole('DIRE')">              
+                        <summary style="font-size: 16px;"> Doanh thu</summary>
+                        <ul>
+                            <li><a href="/productStatistics">Doanh thu sản phẩm</a></li>
+        
+                        </ul>
+
+                    </details>
+                    <hr style="width: 100%;margin: 0;">
+                    <H6 style="margin: 0;">ĐĂNG NHẬP HỆ THỐNG</H6>
+                    <hr style="width: 100%;margin: 0;">
+
+
+                    <a href="/home/index" style="text-decoration: none;color:#000;" class="nav-option option6">
+                        <i class="fa fa-user" style="font-size:30px" aria-hidden="true"></i>
+                        <h3 style="font-size: 16px;"> User page</h3>
+                    </a>
+
+                        <a href="/security/logoff" style="text-decoration: none;color:#000;border:none; background-color:#fff;">
+                            <div class="nav-option logout">
+                                <i class="fa fa-sign-out" style="font-size:30px" aria-hidden="true"></i>
+                                <h3 style="font-size: 16px;">Logout</h3>
+                            </div>
+                        </a>
+
+
+                </div>
+            </nav>
+        </div>
+        <main th:replace="${body}"></main>
+    </div>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script th:src="@{/js/index.js}"></script>
+    <script src="/js/dashboard-app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{/admin/layout/index::areas(~{::title},~{::main})}">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - report</title>
+</head>
+
+<body>
+	<main >
+        <div style="max-height: 500px; overflow-y: scroll;  margin: 100px;
+        font-size: 18px; width: 100%;">
+		<table class="table border border-dark" border="1" style="   ">
+            <tr>
+                <th>Username</th>
+                <th>Fullname</th>
+                <th>Tên sản phẩm</th>
+                <th>Số lượng đã mua</th>
+                <th>Tổng tiền</th>
+    
+            </tr>
+            <tr th:each="stat : ${productStatistics}">
+                <td th:text="${stat[0]}"></td>
+                <td th:text="${stat[1]}"></td>
+                <td th:text="${stat[2]}"></td>
+                <td th:text="${stat[3]}"></td>
+                <td th:text="${stat[4]}"></td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: right;"><strong>Tổng cộng:</strong></td>
+                <td th:text="${(totalRevenue)}"></td>
+            </tr>
+        </table>
+    </div>
+	</main>
+
+</body>
+
+</html>

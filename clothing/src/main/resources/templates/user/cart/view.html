@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/user/layout/layout::areas(~{::title},~{::main})}">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Gio Hàng</title>
+</head>
+
+<body>
+	<main >
+        <style>
+            
+            tbody {
+                display: block;
+                height: 500px;
+                overflow: auto;
+            }
+    
+            thead,
+            tbody tr {
+                display: table;
+                width: 100%;
+                table-layout: fixed;
+                /* even columns width , fix width of table too*/
+            }
+    
+            thead {
+                width: calc(100% - 1em)
+                    /* scrollbar is average 1em/16px width, remove it from thead width */
+            }
+    
+            table {
+                width: 400px;
+            }
+        </style>
+        <div style="margin:0 50px; margin-top: 200px; margin-bottom:50px; " class="card" th:fragment="shopping-cart">
+            <table class="table">
+                <thead>
+                    <th>Hình ảnh</th>
+                    <th>Tên</th>
+                    <th>Kích cỡ</th>
+                    <th>Màu sắc</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                    <th>Tổng tiền</th>
+                    <th></th>
+                </thead>
+                <tbody style="max-height: 300px;overflow-y: scroll;">
+                    <tr ng-repeat="item in cart.items">
+                        <td><img width="80px;" height="70px" style="object-fit: contain;" src="/product/{{item.image}}" alt=""></td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.size}}</td>
+                        <td>{{item.color}}</td>
+                        <td>{{item.price|number:2}}VNĐ</td>
+                        <td><input type="number" ng-model="item.qty" min="1" style="width: 50px;"></td>
+                        <td>{{item.qty*item.price|number:2}}VNĐ</td>
+                        <td>
+                            <button ng-click="cart.remove(item.id)" class="btn btn-sm btn-danger">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+                                  </svg>
+                            </button>
+                            
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="card-footer">
+                    <div style="text-align:right; margin-top:15px;">
+                        <button ng-click="cart.clear()" class="btn btn-danger">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>Xóa trống
+                    </button>
+                    <a th:href="@{/order/checkout}" class="btn " style="background-color: #212529; color: #bda87f;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                        </svg>
+                        Thủ tục thanh toán
+                    </a>
+                </div>
+                <div style=" text-align:right; padding:10px">
+
+                    <span style="font-size:20px;font-weight: 500;">Tổng tiền: </span><span>{{cart.amount|number:2}}VNĐ</span>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/user/layout/layout::areas(~{::title},~{::main})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoes - Best Seller </title>
+</head>
+
+<body>
+    <main style="margin:0 50px;margin-top:200px; ">
+        <form class="app_select" name="sort" style="text-align:center">
+            <P class="fw-bold d-inline me-1"> <b style="font-size:20px">Xếp theo:</b></P>
+            <div class="form-check form-check-inline">
+                <input onclick="autoSubmit('sort','A');" class="form-check-input" type="radio" name="sort"
+                    id="inlineRadio1" value="A" th:checked="${#strings.equals(param.sort, 'A')}" />
+                <label class="form-check-label" for="inlineRadio1">TÊN A-Z</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input onclick="autoSubmit('sort','Z');" class="form-check-input" type="radio" name="sort"
+                    id="inlineRadio2" value="Z" th:checked="${#strings.equals(param.sort, 'Z')}" />
+                <label class="form-check-label" for="inlineRadio2">TÊN Z-A</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input onclick="autoSubmit('sort','N');" class="form-check-input" type="radio" name="sort"
+                    id="inlineRadio3" value="N" th:checked="${#strings.equals(param.sort, 'N')}" />
+                <label class="form-check-label" for="inlineRadio3">HÀNG MỚI</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input onclick="autoSubmit('sort','T');" class="form-check-input" type="radio" name="sort"
+                    id="inlineRadio4" value="T" th:checked="${#strings.equals(param.sort, 'T')}" />
+                <label class="form-check-label" for="inlineRadio4">GIÁ TỪ THẤP ĐẾN CAO</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input onclick="autoSubmit('sort','C');" class="form-check-input" type="radio" name="sort"
+                    id="inlineRadio5" value="C" th:checked="${#strings.equals(param.sort, 'C')}" />
+                <label class="form-check-label" for="inlineRadio5">GIÁ TỪ CAO ĐẾN THẤP</label>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-sm-3 py-2" th:each="item: ${items}">
+                <div class="card">
+                    <a th:href="@{|/product/detail/${item.id}|}">
+                        <img style="height: 200px;
+                    max-width: 100%;object-fit: contain;" th:src="@{|/product/${item.image}|}"
+                            class="card-img-top product_img" th:alt="${item.image}">
+                    </a>
+                    <div class="card-body">
+                        <h6 class="card-title text-center" th:text="${item.name}">
+                        </h6>
+                        <p class="card-text text-center">[[${item.price}]] vnđ</p>
+                        <p class="card-text ">Size:
+                            <input th:each="s: ${item.size}" name="size" style="margin: 0 5px;" type="radio" 
+                                th:value="${s.size.id}" th:text="${s.size.id}" ng-model="size" />
+                        </p>
+                        <p class="card-text ">Màu:
+                            <input name="color" style="margin: 0 5px;" type="radio" th:each="s: ${item.color}"
+                                th:value="${s.color.color_name}" th:text="${s.color.color_name}" ng-model="color" />
+                        </p><button th:attr="ng-click=@{|cart.add(${item.id})|}" class="btn btn-secondary ">Thêm vào giỏ hàng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5" style="justify-content: center">
+            <nav aria-label="Page navigation example "  style="cursor: pointer">
+                <ul th:if="${totalPages  >  1}" class="pagination justify-content-center">
+                    <li th:unless="${#strings.equals(param.pageN, #strings.toString(0))}" class="page-item">
+                        <a 
+                        th:attr="onClick=|autoSubmit('pageN',0)|"
+                            class="page-link text-dark">|<</a></li>
+                    <li th:each="p : ${pageNumbers}" class="page-item "><a
+                        th:attr="onClick=|autoSubmit('pageN',${p})|"
+                        class="page-link text-white bg-dark" th:text="${p+1}"></a>
+                    </li>
+                    <li th:unless="${#strings.equals(param.pageN, #strings.toString(productPage.totalPages -1))}"
+                        class="page-item"><a th:unless="${param.pageN}"
+                            
+                            class="page-link text-dark"  th:attr="onClick=|autoSubmit('pageN',1)|">>|</a>
+                            <a th:if="${param.pageN}"
+                            th:href="@{'/product/'+${view}(size=${productPage.size}, pageN=${#numbers.formatInteger(param.pageN,10)} + 1)}"
+                            class="page-link text-dark"  >>|</a>
+                        </li>
+
+                </ul>
+            </nav>
+        </div>
+        <script>
+            function autoSubmit(name, value) {
+                var searchParams = new URLSearchParams(window.location.search)
+                console.log(searchParams.toString());
+                searchParams.set(name, value)
+                window.location.search = searchParams.toString()
+
+            }
+            function pageN(params) {
+                var searchParams = new URLSearchParams(window.location.search)
+                console.log(searchParams.toString());
+                Object.entries(params).forEach(([key, values]) => {
+                    if (Array.isArray(values)) {
+                        values.forEach((value) => {
+                            searchParams.append(key, value);
+                        });
+                    } else {
+                        searchParams.append(key, values);
+                    }
+                }); window.location.search = searchParams.toString()
+
+            }
+        </script>
+    </main>
+
+
+
+</body>
+
+</html>

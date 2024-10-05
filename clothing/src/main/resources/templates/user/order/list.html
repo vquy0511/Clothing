@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/user/layout/layout::areas(~{::title},~{::main})}">
+
+<head>
+    <title>Shoes - your orders</title>
+</head>
+
+<body>
+    <main style="margin-top:200px; ">
+        <h1 width="100%" style="text-align:center">Đơn đặt hàng của bạn</h1>
+        <style>
+            tbody {
+                display: block;
+                height: 500px;
+                overflow: auto;
+            }
+
+            thead,
+            tbody tr {
+                display: table;
+                width: 100%;
+                table-layout: fixed;
+                /* even columns width , fix width of table too*/
+            }
+
+            thead {
+                width: calc(100% - 1em)
+                    /* scrollbar is average 1em/16px width, remove it from thead width */
+            }
+
+            table {
+                width: 400px;
+            }
+        </style>
+        <table class="table" border="1">
+            <thead>
+                <th>Mã đơn</th>
+                <th>Ảnh SP</th>
+                <th>Tên SP</th>
+                <th>Size</th>
+                <th>Màu</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Ngày tạo</th>
+                <th>Trạng thái</th>
+            </thead>
+            <tbody style="max-height: 500px; overflow-y: scroll;">
+                <tr th:each="o : ${orders}">
+                    <td>[[${o.id}]]</td>
+                    <td><img width="80px;" height="70px;" style="object-fit: contain;"
+                            th:src="@{|/product/${o.product.image}|}" alt=""></td>
+                    <td>[[${o.product.name}]]</td>
+                    <td>[[${o.size}]]</td>
+                    <td>[[${o.color}]]</td>
+                    <td>[[${o.price}]] vnđ</td>
+                    <td>[[${o.quantity}]]</td>
+                    <td>[[${o.order.create_date}]]</td>
+                    <td>[[${o.order.status}]]
+                        <div th:if="${o.order.status == 'Chờ xác nhận'}">
+                            <form  method="post"  th:action="@{|/order/cancel_order/${o.order.id}|}">
+                                <button class="btn btn-danger mt-3" type="submit">Hủy đơn</button>
+                            </form>
+                        </div>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+
+</html>

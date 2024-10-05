@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/admin/layout/index::areas(~{::title},~{::main})}">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Order</title>
+</head>
+
+<body>
+  <main style="margin:50px;">
+    <style>
+      main {
+        position: relative;
+        background: #EEE;
+        width: 80%;
+      }
+
+      main .modal {
+        position: absolute;
+        background: rgba(0, 100, 0, 0.35);
+      }
+    </style>
+    <div style="max-height: 350px;width: 100%; overflow-y: scroll;">
+
+      <table class="table " border="1">
+        <thead>
+          <tr>
+            <th>Order Id</th>
+            <th>Fullname</th>
+            <th>Address</th>
+            <th>Create Date</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody border="1">
+          <tr ng-repeat="item in order.items">
+            <td>{{item.id}}</td>
+            <td>{{item.account.fullname}}</td>
+            <td>{{item.address}}</td>
+            <td>{{item.create_date}}</td>
+
+            <td ng-if="item.status == 'Thành công' || item.status == 'Đã hủy'">
+              <span ng-if="item.status == 'Thành công'" style="color:green;user-select: none;">{{item.status}}</span>
+              <span ng-if="item.status == 'Đã hủy'" style="color:red;user-select: none;">{{item.status}}</span>
+            </td>
+            <td ng-if="item.status != 'Thành công' && item.status != 'Đã hủy'">
+
+              <button   type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#status{{item.id}}">
+                {{item.status}} 
+              </button>
+
+              <!-- Modal -->
+              <div class="modal fade hide" data-bs-backdrop="false" id="status{{item.id}}" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content" style="width: 114%;">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">
+                        Change status 
+                      </h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body flex-grow-1">
+                      <select ng-model="status">
+                        <option value="Chờ xác nhận">Chờ xác nhận</option>
+                        <option value="Chờ lấy hàng">Chờ lấy hàng</option>
+                        <option value="Đang giao">Đang giao</option>
+                        <option value="Thành công">Thành công</option>
+                      </select>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Close
+                      </button>
+                      <button type="button" class="btn btn-primary" ng-click="order.changeStatus(item,status)">
+                        Save changes
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <button ng-click="order.delete(item)" class="btn btn-outline-danger "><svg
+                  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill"
+                  viewBox="0 0 16 16">
+                  <path
+                    d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                </svg></button>
+
+              <!-- Button trigger modal -->
+              <button ng-click="order.view(item)" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#exampleModal1">
+                <i class="fa fa-eye" aria-hidden="true"></i>
+              </button>
+
+              <!-- Modal -->
+              <div class="modal fade hide" data-bs-backdrop="false" id="exampleModal1" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content" style="width: 114%;">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">
+                        Order Details
+                      </h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body flex-grow-1">
+                      <table class="table " border="1">
+                        <thead>
+                          <tr>
+                            <th>Id</th>
+                            <th>product name</th>
+                            <th>Size</th>
+                            <th>Color</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Create Date</th>
+                            <th>Status</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody border="1">
+                          <tr ng-repeat="od in order.orderDetails">
+                            <td>{{od.id}}</td>
+                            <td>{{od.product.name}}</td>
+                            <td>{{od.size}}</td>
+                            <td>{{od.color}}</td>
+                            <td>{{od.quantity}}</td>
+                            <td>{{od.price}}</td>
+                            <td>{{od.order.create_date}}</td>
+                            <td>{{od.order.status}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+  </main>
+
+</body>
+
+</html>

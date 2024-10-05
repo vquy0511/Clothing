@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/user/layout/layout::areas(~{::title},~{::main})}">
+    <head>
+        <title>Shoes - checkout</title>
+    </head>
+<body>
+    <main>
+        <div th:replace="~{/user/cart/view::shopping-cart}"></div>
+        <div class="card  " style="margin:0 50px;">
+            <div style="background-color: #212529; color: #bda87f;" class="card-heading text-center p-2">ĐẶT MUA</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        <div>Chủ đầu tư:</div>
+                        <div class="form-control" id="username">[[${#request.remoteUser}]]</div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <div>Ngày đặt hàng:</div>
+                        <div class="form-control">{{order.create_date|date: 'dd-MM-yyyy'}}</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-12">
+                        <div>Địa chỉ giao hàng:</div>
+                        <textarea ng-model="order.address" class="form-control" cols="30" rows="5"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-end">
+                <button class="btn " style="background-color: #212529; color: #bda87f;" ng-click="order.purchase()">Mua</button>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
